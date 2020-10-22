@@ -33,7 +33,7 @@
      }
      
      $query  = "INSERT INTO assets (";
-$query .=" name,description,purpose,owner,financial_value,location,date,returns,dateOfReturn,status,comments,assettype_id,media_id";
+$query .=" assetname,description,purpose,owner,financial_value,location,date,returns,dateOfReturn,status,comments,assettype_id,media_id";
 $query .=") VALUES (";
 $query .=
 "'{$p_name}','{$p_desc}','{$p_purpose}','{$p_owner}','{$p_financial}','{$p_location}','{$p_date}','{$p_return}',
@@ -89,7 +89,7 @@ $query .=
                       <option value="">Select Asset Type</option>
                     <?php  foreach ($all_categories as $cat): ?>
                       <option value="<?php echo (int)$cat['id'] ?>">
-                        <?php echo $cat['name'] ?></option>
+                        <?php echo $cat['Type'] ?></option>
                     <?php endforeach; ?>
                     </select>
                   </div>

@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `AssetType` (
   `id` int(11) unsigned NOT NULL,
-  `name` varchar(60) NOT NULL
+  `Type` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `media` (
 
 CREATE TABLE IF NOT EXISTS `Assets` (
   `id` int(11) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `Assetname` varchar(255) NOT NULL,
   `description` varchar(50) DEFAULT NULL,
   `purpose` varchar(250) DEFAULT NULL,
   `owner` varchar(250) NOT NULL,
@@ -137,7 +137,7 @@ INSERT INTO `user_groups` (`id`, `group_name`, `group_level`, `group_status`) VA
 --
 ALTER TABLE `AssetType`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD UNIQUE KEY `type` (`type`);
 
 --
 -- Indexes for table `media`

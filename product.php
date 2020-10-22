@@ -23,8 +23,8 @@
               <tr>
                 <th class="text-center" style="width: 50px;">#</th>
                 <th> Photo</th>
-                <th> Asset Title </th>
-                <th class="text-center" style="width: 10%;">Asset Type </th>
+                <th> Asset Type </th>
+                <th class="text-center" style="width: 10%;">Asset name </th>
                 <th class="text-center" style="width: 10%;"> Description </th>
                 <th class="text-center" style="width: 10%;"> Purpose </th>
                 <th class="text-center" style="width: 10%;"> owner </th>
@@ -32,6 +32,7 @@
                 <th class="text-center" style="width: 10px;"> location </th>
                 <th class="text-center" style="width: 10px;"> date </th>
                 <th class="text-center" style="width: 10px;"> returns </th>
+                <th class="text-center" style="width: 10px;">Date of Return </th>
                 <th class="text-center" style="width: 10px;"> status </th>
                 <th class="text-center" style="width: 10px;"> comments </th>
 
@@ -42,14 +43,14 @@
               <tr>
                 <td class="text-center"><?php echo count_id();?></td>
                 <td>
-                  <?php if($product['media_id'] === '0'): ?>
+                  <?php if($product['assettype'] === '0'): ?>
                     <img class="img-avatar img-circle" src="uploads/products/no_image.jpg" alt="">
                   <?php else: ?>
                   <img class="img-avatar img-circle" src="uploads/products/<?php echo $product['image']; ?>" alt="">
                 <?php endif; ?>
                 </td>
-                <td> <?php echo remove_junk($product['name']); ?></td>
-                <td class="text-center"> <?php echo remove_junk($product['name']); ?></td>
+                <td class="text-center"> <?php echo remove_junk($product['Type']); ?></td>
+                <td class="text-center"> <?php echo remove_junk($product['assetname']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['description']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['purpose']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['owner']); ?></td>
@@ -57,6 +58,7 @@
                 <td class="text-center"> <?php echo remove_junk($product['location']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['date']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['returns']); ?></td>
+                <td class="text-center"> <?php echo remove_junk($product['dateOfReturn']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['status']); ?></td>
                 <td class="text-center"> <?php echo remove_junk($product['comments']); ?></td>
                 

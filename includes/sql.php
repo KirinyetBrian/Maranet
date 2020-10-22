@@ -210,15 +210,21 @@ function tableExists($table){
    /*--------------------------------------------------------------*/
   function join_product_table(){
      global $db;
-     $sql  =" SELECT A.id,A.name,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,A.returns,A.status,A.comments,A.media_id,c.name";
-    $sql  .=" AS assettype,m.file_name AS image";
-    $sql  .=" FROM assets A";
-    $sql  .=" LEFT JOIN assettype c ON c.id = A.assettype_id";
-    $sql  .=" LEFT JOIN media m ON m.id = A.media_id";
-    $sql  .=" ORDER BY A.id ASC";
+     $sql  =" SELECT A.id,A.assetname,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,
+     A.returns,A.dateOfReturn,A.status,A.comments,A.media_id ";    
+    $sql  .=" AS assettype,m.file_name AS image, ";
+     $sql  .=" c.Type AS Type, "; 
+     $sql .= "c.id as ID"; 
+    $sql  .=" FROM assets A ";
+    $sql  .=" INNER JOIN assettype c ON c.id = A.assettype_id "; 
+    $sql  .=" LEFT JOIN media m ON m.id = A.media_id ";
+    $sql  .=" ORDER BY A.id ASC ";
+    
     return find_by_sql($sql);
 
    }
+
+
   /*--------------------------------------------------------------*/
   /* Function for Finding all product name
   /* Request coming from ajax.php for auto suggest
@@ -309,13 +315,13 @@ function find_sale_by_dates($start_date,$end_date){
   global $db;
   $start_date  = date("Y-m-d", strtotime($start_date));
   $end_date    = date("Y-m-d", strtotime($end_date));
- $sql  =" SELECT A.id,A.name,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,A.returns,A.dateOfReturn,A.status,A.comments,p.name,";
+ $sql  =" SELECT A.id,A.Assetname,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,A.returns,A.dateOfReturn,A.status,A.comments,p.Type,";
   $sql .= "COUNT(A.id) AS total_records,";
   $sql .= "SUM(A.financial_value) AS total_value ";
   $sql .= "FROM Assets A ";
   $sql .= "LEFT JOIN assettype p ON A.assettype_id = p.id";
   $sql .= " WHERE A.date BETWEEN '{$start_date}' AND '{$end_date}'";
-  $sql .= " GROUP BY DATE(A.date),p.name";
+  $sql .= " GROUP BY DATE(A.date),p.Type";
   $sql .= " ORDER BY DATE(A.date) DESC";
   return $db->query($sql);
 }
@@ -324,13 +330,13 @@ function find_date_of_return($start_date,$end_date){
   global $db;
   $start_date  = date("Y-m-d", strtotime($start_date));
   $end_date    = date("Y-m-d", strtotime($end_date));
- $sql  =" SELECT A.id,A.name,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,A.returns,A.dateOfReturn,A.status,A.comments,p.name,";
+ $sql  =" SELECT A.id,A.Assetname,A.description,A.purpose,A.owner,A.financial_value,A.location,A.date,A.returns,A.dateOfReturn,A.status,A.comments,p.Type,";
   $sql .= "COUNT(A.id) AS total_records,";
   $sql .= "SUM(A.financial_value) AS total_value ";
   $sql .= "FROM Assets A ";
   $sql .= "LEFT JOIN assettype p ON A.assettype_id = p.id";
   $sql .= " WHERE A.dateOfReturn BETWEEN '{$start_date}' AND '{$end_date}'";
-  $sql .= " GROUP BY DATE(A.dateOfReturn),p.name";
+  $sql .= " GROUP BY DATE(A.dateOfReturn),p.Type";
   $sql .= " ORDER BY DATE(A.dateOfReturn) DESC";
   return $db->query($sql);
 }

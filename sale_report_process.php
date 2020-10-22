@@ -100,7 +100,7 @@ $results = '';
       <table class="table table-border">
         <thead>
           <tr>
-              <th>Date Issued</th>
+              
               <th>Asset Title</th>
               <th>total records</th>
               <th>total value</th>
@@ -110,18 +110,20 @@ $results = '';
               <th>financial_value</th>
               <th>location</th>
               <th>returns</th>
+              <th>Date Issued</th>
               <th>Date Returned</th>
               <th>status</th>
               <th>comments</th>
+              
             
           </tr>
         </thead>
         <tbody>
           <?php foreach($results as $result): ?>
            <tr>
-              <td class=""><?php echo remove_junk($result['date']);?></td>
+              
               <td class="desc">
-                <h6><?php echo remove_junk(ucfirst($result['name']));?></h6>
+                <h6><?php echo remove_junk(ucfirst($result['Assetname']));?></h6>
               </td>
               <td class="text-right"><?php echo remove_junk($result['total_records']);?></td>
               <td class="text-right"><?php echo remove_junk($result['total_value']);?></td>
@@ -131,6 +133,7 @@ $results = '';
               <td class="text-right"><?php echo remove_junk($result['financial_value']);?></td>
               <td class="text-right"><?php echo remove_junk($result['location']);?></td>
               <td class="text-right"><?php echo remove_junk($result['returns']);?></td>
+              <td class=""><?php echo remove_junk($result['date']);?></td>
               <td class="text-right"><?php echo remove_junk($result['dateOfReturn']);?></td>
               <td class="text-right"><?php echo remove_junk($result['status']);?></td>
               <td class="text-right"><?php echo remove_junk($result['comments']);?></td>

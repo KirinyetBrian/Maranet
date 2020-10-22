@@ -5,8 +5,8 @@
    page_require_level(2);
 ?>
 <?php
-$product = find_by_id('products',(int)$_GET['id']);
-$all_categories = find_all('categories');
+$product = find_by_id('assets',(int)$_GET['id']);
+$all_categories = find_all('assettype');
 $all_photo = find_all('media');
 if(!$product){
   $session->msg("d","Missing product id.");
@@ -15,23 +15,32 @@ if(!$product){
 ?>
 <?php
  if(isset($_POST['product'])){
-    $req_fields = array('product-title','product-categorie','product-quantity','buying-price', 'saleing-price' );
+   $req_fields = array('product-title','description','purpose','owner', 'financial_value','location','date','returns',
+    'status','comments');
     validate_fields($req_fields);
 
    if(empty($errors)){
-       $p_name  = remove_junk($db->escape($_POST['product-title']));
-       $p_cat   = (int)$_POST['product-categorie'];
-       $p_qty   = remove_junk($db->escape($_POST['product-quantity']));
-       $p_buy   = remove_junk($db->escape($_POST['buying-price']));
-       $p_sale  = remove_junk($db->escape($_POST['saleing-price']));
+     $p_name  = remove_junk($db->escape($_POST['product-title']));
+     $p_desc  = remove_junk($db->escape($_POST['description']));
+     $p_purpose   = remove_junk($db->escape($_POST['purpose']));
+     $p_owner   = remove_junk($db->escape($_POST['owner']));
+     $p_financial  = remove_junk($db->escape($_POST['financial_value']));
+     $p_location  = remove_junk($db->escape($_POST['location']));
+     $p_return  = remove_junk($db->escape($_POST['returns']));
+     $p_returnDate  = remove_junk($db->escape($_POST['dateOfReturn']));
+     $p_status  = remove_junk($db->escape($_POST['status']));
+     $p_comments = remove_junk($db->escape($_POST['comments']));
+     $p_date = remove_junk($db->escape($_POST['date']));
+     $p_cat = remove_junk($db->escape($_POST['product-categorie']));
+
        if (is_null($_POST['product-photo']) || $_POST['product-photo'] === "") {
          $media_id = '0';
        } else {
          $media_id = remove_junk($db->escape($_POST['product-photo']));
        }
-       $query   = "UPDATE products SET";
-       $query  .=" name ='{$p_name}', quantity ='{$p_qty}',";
-       $query  .=" buy_price ='{$p_buy}', sale_price ='{$p_sale}', categorie_id ='{$p_cat}',media_id='{$media_id}'";
+       $query   = "UPDATE assets SET";
+        $query  .=" Assetname='{$p_name}',description='{$p_desc}',purpose='{$p_purpose}',owner='{$p_owner}',financial_value='{$p_financial}',location='{$p_location}',date='{$p_date}',returns='{$p_return}',dateOfReturn='{$p_returnDate}',status='{$p_status}',comments='{$p_comments}',assettype_id='{$p_cat}',media_id='{$media_id}'";
+     
        $query  .=" WHERE id ='{$product['id']}'";
        $result = $db->query($query);
                if($result && $db->affected_rows() === 1){
@@ -61,7 +70,7 @@ if(!$product){
         <div class="panel-heading">
           <strong>
             <span class="glyphicon glyphicon-th"></span>
-            <span>Add New Product</span>
+            <span>Update Asset</span>
          </strong>
         </div>
         <div class="panel-body">
@@ -72,18 +81,20 @@ if(!$product){
                   <span class="input-group-addon">
                    <i class="glyphicon glyphicon-th-large"></i>
                   </span>
-                  <input type="text" class="form-control" name="product-title" value="<?php echo remove_junk($product['name']);?>">
+                  <input type="text" class="form-control" name="product-title" value="<?php echo remove_junk($product['Assetname']);?>">
                </div>
               </div>
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
-                    <select class="form-control" name="product-categorie">
-                    <option value=""> Select a categorie</option>
-                   <?php  foreach ($all_categories as $cat): ?>
-                     <option value="<?php echo (int)$cat['id']; ?>" <?php if($product['categorie_id'] === $cat['id']): echo "selected"; endif; ?> >
-                       <?php echo remove_junk($cat['name']); ?></option>
-                   <?php endforeach; ?>
+                  <select class="form-control" name="product-categorie">
+            
+                      <option value="">Select Asset Type</option>
+                    <?php  foreach ($all_categories as $cat): ?>
+                      <option value="<?php echo (int)$cat['id'] ?>">
+                        <?php echo $cat['Type'] ?></option>
+                    <?php endforeach; ?>
+                    </select>
                  </select>
                   </div>
                   <div class="col-md-6">
@@ -101,38 +112,103 @@ if(!$product){
               <div class="form-group">
                <div class="row">
                  <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="qty">Quantity</label>
-                    <div class="input-group">
-                      <span class="input-group-addon">
-                       <i class="glyphicon glyphicon-shopping-cart"></i>
-                      </span>
-                      <input type="number" class="form-control" name="product-quantity" value="<?php echo remove_junk($product['quantity']); ?>">
-                   </div>
+                   <div class="input-group">
+                     <span class="input-group-addon">
+                      <i class="glyphicon glyphicon-th-large"></i>
+                     </span>
+                     <input type="text" class="form-control" name="description" placeholder="Description">
                   </div>
                  </div>
                  <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="qty">Buying price</label>
+                   <div class="input-group">
+                     <span class="input-group-addon">
+                       <i class="glyphicon glyphicon-th"></i>
+                     </span>
+                     <input type="text" class="form-control" name="purpose" placeholder="Purpose">
+                 
+                  </div>
+                 </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                      </span>
+                      <input type="text" class="form-control" name="owner" placeholder="Owner">
+                      
+                   </div>
+                  </div>
+                     <div class="col-md-4">
                     <div class="input-group">
                       <span class="input-group-addon">
                         <i class="glyphicon glyphicon-usd"></i>
                       </span>
-                      <input type="number" class="form-control" name="buying-price" value="<?php echo remove_junk($product['buy_price']);?>">
+                <input type="number" class="form-control" name="financial_value" placeholder="Financial Value">
                       <span class="input-group-addon">.00</span>
                    </div>
                   </div>
-                 </div>
+
+                      <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                      </span>
+                <input type="text" class="form-control" name="location" placeholder="Location">
+                     
+                   </div>
+                  </div>
+
+                     <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </span>
+                <input type="date" class="form-control" name="date" placeholder="Date">
+                    
+                   </div>
+                  </div>
+
+
+                     <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                      </span>
+                      <select class="form-control" name="returns" placeholder="Return">
+                        <option value="">Select...</option>
+                        <option>return</option>
+                        <option>issue</option>
+                      </select>
+                                   
+                   </div>
+                  </div>
+
+                     <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </span>
+                      <label>Date Returned</label>
+                <input type="date" class="form-control" name="dateOfReturn" placeholder="Date">
+                    
+                   </div>
+                  </div>
                   <div class="col-md-4">
-                   <div class="form-group">
-                     <label for="qty">Selling price</label>
-                     <div class="input-group">
-                       <span class="input-group-addon">
-                         <i class="glyphicon glyphicon-usd"></i>
-                       </span>
-                       <input type="number" class="form-control" name="saleing-price" value="<?php echo remove_junk($product['sale_price']);?>">
-                       <span class="input-group-addon">.00</span>
-                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                      </span>
+                <input type="text" class="form-control" name="status" placeholder="Status">
+                   
+                   </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                      </span>
+                <input type="text" class="form-control" name="comments" placeholder="Comments">
+                    
                    </div>
                   </div>
                </div>
